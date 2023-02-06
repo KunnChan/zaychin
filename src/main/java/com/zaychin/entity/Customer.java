@@ -1,7 +1,6 @@
 package com.zaychin.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +10,6 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
-@Builder
 @Entity
 @Table(name = "customers")
 public class Customer implements UserDetails {

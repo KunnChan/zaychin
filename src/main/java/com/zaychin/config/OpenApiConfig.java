@@ -1,60 +1,36 @@
 package com.zaychin.config;
 
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.*;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
-
-import java.util.Collections;
-import java.util.List;
 
 @Configuration
+@SecurityScheme(
+        name = "bearerAuth",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        scheme = "bearer"
+)
 public class OpenApiConfig {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
 
-    private ApiInfo apiInfo() {
-        return new ApiInfo("Zaychin Rest APIs",
-                "APIs for Zaychin: e-commerce platform application",
-                "1.0",
-                "Terms of service",
-                new Contact("zaychin", "www.zaychin.com", "info@zaychin.com"),
-                "License of API",
-                "API license URL",
-                Collections.emptyList());
-    }
-
     @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.OAS_30)
-                .apiInfo(apiInfo())
-                .securityContexts(Collections.singletonList(securityContext()))
-                .securitySchemes(List.of(apiKey()))
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
-                .build();
-    }
-
-    private ApiKey apiKey() {
-        return new ApiKey(AUTHORIZATION_HEADER, "JWT", "header");
-    }
-
-    private SecurityContext securityContext() {
-        return SecurityContext.builder()
-                .securityReferences(defaultAuth())
-                .build();
-    }
-
-    private List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope
-                = new AuthorizationScope("global", "accessEverything");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
-        return List.of(new SecurityReference(AUTHORIZATION_HEADER, authorizationScopes));
+    public OpenAPI customOpenAPI(
+            @Value("${application.name}") String name,
+            @Value("${application.description}") String description,
+            @Value("${application.api-version}") String version) {
+        return new OpenAPI()
+                .info(new Info()
+                                .title(name)
+                                .version(version)
+                                .description(description)
+                                .termsOfService("http://zaychin.com/terms/")
+                                .license(new License().name("MIT").url("http://mit.org")));
     }
 }
