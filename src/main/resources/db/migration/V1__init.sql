@@ -40,8 +40,8 @@ CREATE TABLE IF NOT EXISTS order_items (
   FOREIGN KEY (product_id) REFERENCES products (product_id)
 );
 
-CREATE TABLE IF NOT EXISTS customers (
-  customer_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS users (
+  user_id INT AUTO_INCREMENT PRIMARY KEY,
   username varchar(255) NOT NULL unique,
   first_name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,

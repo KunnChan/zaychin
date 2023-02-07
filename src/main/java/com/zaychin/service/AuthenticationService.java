@@ -1,11 +1,11 @@
 package com.zaychin.service;
 
 import com.zaychin.config.JwtService;
-import com.zaychin.entity.Customer;
+import com.zaychin.entity.User;
 import com.zaychin.model.AuthRequest;
 import com.zaychin.model.AuthResponse;
 import com.zaychin.model.RegistrationRequest;
-import com.zaychin.repository.CustomerRepository;
+import com.zaychin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,18 +16,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    private final CustomerRepository repository;
+    private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse register(RegistrationRequest request) {
-        var user = Customer.builder()
-                .firstName(request.firstname())
-                .lastName(request.lastname())
-                .email(request.email())
-                .password(passwordEncoder.encode(request.password()))
-                .build();
+        var user = new User();
+            user.setFirstName(request.firstname());
+            user.setLastName(request.lastname());
+            user.setEmail(request.email());
+            user.setPassword(passwordEncoder.encode(request.password()));
         repository.save(user);
         var jwtToken = jwtService.generateToken(user);
         return new AuthResponse(jwtToken);

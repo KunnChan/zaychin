@@ -1,17 +1,18 @@
 package com.zaychin.controller;
 
-import com.zaychin.service.CustomerService;
+import com.zaychin.service.UserService;
 import com.zaychin.service.ProductService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public record CustomerController(CustomerService customerService, ProductService productService) {
+@RequestMapping("/open/customer")
+public record CustomerController(UserService userService, ProductService productService) {
 
-    @PreAuthorize("hasRole('CUSTOMER')")
-    @GetMapping("/customer/home")
+    @GetMapping("/home")
     public String customerHome() {
         // model.addAttribute("products", productService.getAllProducts());
         return "customer/home";
