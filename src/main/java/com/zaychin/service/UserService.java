@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public record UserService(UserRepository userRepository) {
 
-    public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username).orElse(null);
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
     }
 }

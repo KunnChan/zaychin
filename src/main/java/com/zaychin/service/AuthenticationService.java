@@ -22,7 +22,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse register(RegistrationRequest request) {
-        var user = new User();
+        User user = new User();
             user.setFirstName(request.firstname());
             user.setLastName(request.lastname());
             user.setEmail(request.email());

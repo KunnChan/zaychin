@@ -18,8 +18,6 @@ import org.springframework.context.annotation.Configuration;
 )
 public class OpenApiConfig {
 
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-
     @Bean
     public OpenAPI customOpenAPI(
             @Value("${application.name}") String name,
@@ -27,10 +25,10 @@ public class OpenApiConfig {
             @Value("${application.api-version}") String version) {
         return new OpenAPI()
                 .info(new Info()
-                                .title(name)
-                                .version(version)
-                                .description(description)
-                                .termsOfService("http://zaychin.com/terms/")
-                                .license(new License().name("MIT").url("http://mit.org")));
+                        .title(name)
+                        .version(version)
+                        .description(description)
+                        .termsOfService("http://zaychin.com/terms/")
+                        .license(new License().name("MIT").url("http://mit.org")));
     }
 }
